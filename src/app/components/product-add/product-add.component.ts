@@ -36,9 +36,17 @@ export class ProductAddComponent implements OnInit {
   add() {
     if (this.productAddForm.valid) {
       let productModel = Object.assign({}, this.productAddForm.value);
-      this.productService.add(productModel)
+      this.productService.add(productModel).subscribe(
+        (data) => {
+          this.toastrService.success(data.message, 'başarılı');
+        },
+        (dataError) => {
+          console.log(dataError);
+          this.toastrService.error(dataError.error);
+        }
+      );
     } else {
-      this.toastrService.error("Formunuz eksik","Dikkat")
+      this.toastrService.error('Formunuz eksik', 'Dikkat');
     }
   }
 }
